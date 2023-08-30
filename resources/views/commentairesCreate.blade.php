@@ -15,9 +15,16 @@
                     <p class="small text-muted">Créé le {{ $commentaire->created_at->format('d/m/Y H:i') }}</p>
                     
                     @if(auth()->check() && $commentaire->user_id === auth()->user()->id)
-                        <a href="{{ route('modifierCommentaire', ['id' => $commentaire->id]) }}"><i class="fa-solid fa-pen-to-square"></i></a>
-                        <a href="{{ route('supprimerCommentaire', ['id' => $commentaire->id]) }}"><i class="fa-solid fa-trash" style="color:red"></i></a>
+                        <div style="display:flex; align-items:center">
+                            <a href="{{ route('modifierCommentaire', ['id' => $commentaire->id]) }}" style="display:inline-block; margin-right:10px; text-decoration:none;"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <form method="POST" action="{{ route('supprimerCommentaire', ['id' => $commentaire->id]) }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" style="outline:none; border:none; background: none; cursor:pointer"><i class="fa-solid fa-trash" style="color:red"></i></button>
+                            </form>
+                        </div>
                     @endif
+
                     
                 </div>
             </div>
